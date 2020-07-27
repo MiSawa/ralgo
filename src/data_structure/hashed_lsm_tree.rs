@@ -170,9 +170,9 @@ mod test {
             lsmt.insert(i, i);
         }
         lsmt.insert(0, 10);
-        assert_eq!(lsmt.get(0), Some(&10));
-        assert_eq!(lsmt.get(1), None);
+        assert_eq!(lsmt.get(&0), Some(&10));
+        assert_eq!(lsmt.get(&1), None);
         lsmt.insert(1, 11);
-        assert_eq!(lsmt.get(1), Some(&11));
+        assert_eq!(lsmt.get(&1), Some(&11));
     }
 }
