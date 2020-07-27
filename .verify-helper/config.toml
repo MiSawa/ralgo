@@ -1,5 +1,5 @@
 [languages.rs]
 verification_file_suffix = '_test.rs'
-compile = 'cargo build --workspace'
-execute = 'cargo run -p verify {basedir}/{path}'
+compile = 'cargo build --release --workspace'
+execute = '.verify-helper/runner {path}'
 list_dependencies = 'sed -nE "s/.*dependency:\s*(\S+).*/\1/p" {path}'
