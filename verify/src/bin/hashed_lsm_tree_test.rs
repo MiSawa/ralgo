@@ -30,7 +30,7 @@ fn main() {
                 from &mut *source,
                 k: usize,
             }
-            println!("{}", tree.get(k).unwrap_or(&0));
+            println!("{}", tree.get(&k).unwrap_or(&0));
         }
     }
 }

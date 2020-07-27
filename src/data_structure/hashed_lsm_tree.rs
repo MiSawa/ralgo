@@ -118,9 +118,9 @@ impl<K: Ord + Hash + Eq, V, B: BuildHasher> LSMTree<K, V, B> {
         self.fix()
     }
 
-    pub fn get(&self, key: K) -> Option<&V> {
+    pub fn get(&self, key: &K) -> Option<&V> {
         for elem in self.buffer.iter() {
-            if elem.key == key {
+            if &elem.key == key {
                 return Some(&elem.value);
             }
         }
@@ -139,7 +139,7 @@ impl<K: Ord + Hash + Eq, V, B: BuildHasher> LSMTree<K, V, B> {
                     if hash < level[j].hash {
                         break;
                     }
-                    if level[j].key == key {
+                    if &level[j].key == key {
                         return Some(&level[j].value);
                     }
                 }
@@ -149,7 +149,7 @@ impl<K: Ord + Hash + Eq, V, B: BuildHasher> LSMTree<K, V, B> {
                     if hash > level[j].hash {
                         break;
                     }
-                    if level[j].key == key {
+                    if &level[j].key == key {
                         return Some(&level[j].value);
                     }
                 }
