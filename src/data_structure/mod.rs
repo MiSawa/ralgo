@@ -1,1 +1,1 @@
-pub mod hashed_lsm_tree;
+pub mod hash_lsm_tree;

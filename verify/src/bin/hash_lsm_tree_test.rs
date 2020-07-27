@@ -1,8 +1,8 @@
 use proconio::input;
-use ralgo::data_structure::hashed_lsm_tree::LSMTree;
+use ralgo::data_structure::hash_lsm_tree::HashLSMTree;
 
 // verify-helper: PROBLEM https://judge.yosupo.jp/problem/associative_array
-// dependency: src/data_structure/hashed_lsm_tree.rs
+// dependency: src/data_structure/hash_lsm_tree.rs
 
 fn main() {
     let mut source = proconio::STDIN_SOURCE.lock().unwrap();
@@ -11,7 +11,7 @@ fn main() {
         q: usize
     };
 
-    let mut tree = LSMTree::new();
+    let mut tree = HashLSMTree::new();
 
     for _ in 0..q {
         input! {

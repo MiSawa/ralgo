@@ -20,7 +20,7 @@ impl<K: Ord, V> Elem<K, V> {
 
 type Level<K, V> = Vec<Elem<K, V>>;
 
-pub struct LSMTree<K, V, B: BuildHasher = std::collections::hash_map::RandomState> {
+pub struct HashLSMTree<K, V, B: BuildHasher = std::collections::hash_map::RandomState> {
     buffer: Vec<Elem<K, V>>,
     levels: Vec<Level<K, V>>,
     build_hasher: B,
@@ -61,15 +61,15 @@ impl<K: Ord, V, I: Iterator<Item = Elem<K, V>>> Iterator for MergingIter<K, V, I
     }
 }
 
-impl<K: Ord + Hash + Eq, V> LSMTree<K, V, RandomState> {
+impl<K: Ord + Hash + Eq, V> HashLSMTree<K, V, RandomState> {
     pub fn new() -> Self {
-        LSMTree::with_hasher(Default::default())
+        HashLSMTree::with_hasher(Default::default())
     }
 }
 
-impl<K: Ord + Hash + Eq, V, B: BuildHasher> LSMTree<K, V, B> {
+impl<K: Ord + Hash + Eq, V, B: BuildHasher> HashLSMTree<K, V, B> {
     pub fn with_hasher(build_hasher: B) -> Self {
-        LSMTree {
+        HashLSMTree {
             buffer: Vec::new(),
             levels: Vec::new(),
             build_hasher,
@@ -165,7 +165,7 @@ mod test {
 
     #[test]
     fn test() {
-        let mut lsmt: LSMTree<usize, usize> = LSMTree::new();
+        let mut lsmt: HashLSMTree<usize, usize> = HashLSMTree::new();
         for i in 10..1000 {
             lsmt.insert(i, i);
         }
