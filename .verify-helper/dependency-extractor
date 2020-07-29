@@ -1,0 +1,2 @@
+#!/bin/bash
+cargo run -q --release -p ralgo_dependency_util -- --extract ralgo --target "$(basename "$1" | cut -f 1 -d '.')"

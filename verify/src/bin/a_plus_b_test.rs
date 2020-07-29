@@ -3,7 +3,6 @@ use std::io::{stdin, BufRead};
 use ralgo::a_plus_b::a_plus_b;
 
 // verify-helper: PROBLEM https://judge.yosupo.jp/problem/aplusb
-// dependency: src/a_plus_b.rs
 
 fn main() {
     let stdin = stdin();
