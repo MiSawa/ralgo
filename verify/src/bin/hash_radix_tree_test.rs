@@ -2,7 +2,6 @@ use proconio::input;
 use ralgo::data_structure::hash_radix_tree::HashRadixTree;
 
 // verify-helper: PROBLEM https://judge.yosupo.jp/problem/associative_array
-// dependency: src/data_structure/hash_radix_tree.rs
 
 fn main() {
     let mut source = proconio::STDIN_SOURCE.lock().unwrap();
