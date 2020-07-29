@@ -13,4 +13,8 @@ repository = "https://github.com/MiSawa/ralgo/"
 [dependencies]
 
 [workspace]
-members = ["verify"]
+members = ["dependency_util", "verify"]
+
+[patch.crates-io]
+rls-analysis = { git = "https://github.com/MiSawa/rls.git", branch = "expose-more-things" }
+rls-data = { git = "https://github.com/MiSawa/rls.git", branch = "expose-more-things" }

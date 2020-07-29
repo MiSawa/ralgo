@@ -1,2 +1,2 @@
 #!/bin/bash
-cargo run --release -p verify --bin "$(basename "$1" | cut -f 1 -d '.')"
+cargo run -q --release -p verify --bin "$(basename "$1" | cut -f 1 -d '.')"
