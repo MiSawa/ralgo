@@ -1,0 +1,12 @@
+[package]
+name = "abc173"
+version = "0.1.0"
+authors = ["mi_sawa <mi.sawa.1216+git@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ralgo = { path = "../../" }
+proconio = "0.4.1"
+itertools = "0.9.0"

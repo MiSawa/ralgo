@@ -59,7 +59,7 @@ impl<K: Hash + Eq, V, B: BuildHasher> HashRadixTree<K, V, B> {
     fn build_inner(buffer: Vec<Elem<K, V>>, pos: usize) -> Node<K, V> {
         if pos * E > 64 {
             // Ugh.... whatever
-            return Node::Outer(buffer)
+            return Node::Outer(buffer);
         }
         let mut buffers: Vec<_> = repeat_with(|| Vec::new()).take(B).collect();
         for elem in buffer {
