@@ -275,6 +275,12 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
                 b = e.dst;
             }
         }
+        enum LeavingSide {
+            SRC,
+            DST,
+            ENTER,
+        }
+        let mut leaving_side = LeavingSide::ENTER;
         let top = a;
         let mut leaving_edge_id = None;
         a = src;
@@ -284,12 +290,14 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
             if self.add_flow(&down_edge, f) {
                 if leaving_edge_id.is_none() {
                     leaving_edge_id = Some(down_edge);
+                    leaving_side = LeavingSide::SRC;
                 }
             }
             a = v_data.parent.unwrap();
         }
         if self.add_flow(&eid, f) {
             leaving_edge_id = Some(eid);
+            leaving_side = LeavingSide::ENTER;
         }
         b = dst;
         while b != top {
@@ -297,6 +305,7 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
             let up_edge = v_data.parent_edge.unwrap();
             if self.add_flow(&up_edge, f) {
                 leaving_edge_id = Some(up_edge);
+                leaving_side = LeavingSide::DST;
             }
             b = v_data.parent.unwrap();
         }
@@ -311,7 +320,11 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
         assert!(data
             .tree_edges
             .remove(&(leaving_e.dst, leaving_edge_id.rev())));
-        self.update_tree(data, top)
+        match leaving_side {
+            LeavingSide::SRC => self.update_tree(data, dst),
+            LeavingSide::DST => self.update_tree(data, src),
+            LeavingSide::ENTER => return,
+        }
     }
 
     pub fn run(&mut self) -> Option<Ret<F, C>> {
