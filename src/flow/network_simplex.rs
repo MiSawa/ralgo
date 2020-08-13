@@ -1,8 +1,8 @@
 use crate::flow::{Cost, Flow, Zero};
 use core::mem;
 use std::cmp::{max, min};
-use std::collections::BTreeSet;
-use std::ops::{Add, Bound, Mul};
+use std::collections::HashSet;
+use std::ops::{Add, Mul};
 use std::option::Option::{None, Some};
 
 struct Edge<F, C> {
@@ -13,7 +13,7 @@ struct Edge<F, C> {
     cost: C,
 }
 
-#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug)]
+#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug, Hash)]
 pub struct EdgeId(usize);
 impl EdgeId {
     fn rev(&self) -> Self {
@@ -27,7 +27,7 @@ struct VertexData<C> {
     parent: Option<usize>,
     parent_edge: Option<EdgeId>, // out-tree, i.e. this node == e.src
     depth: usize,
-    // tree_edges: Vec<EdgeId>,
+    tree_edges: HashSet<EdgeId>,
 }
 impl<C: Zero> Default for VertexData<C> {
     fn default() -> Self {
@@ -37,7 +37,7 @@ impl<C: Zero> Default for VertexData<C> {
             parent: None,
             parent_edge: None,
             depth: 0,
-            // tree_edges: Vec::new(),
+            tree_edges: HashSet::new(),
         }
     }
 }
@@ -47,7 +47,6 @@ pub struct NetworkSimplex<F: Flow, C: Cost> {
 }
 struct TemporaryData<C: Cost> {
     vertices: Vec<VertexData<C>>,
-    tree_edges: BTreeSet<(usize, EdgeId)>,
     n: usize,
     root: usize,
     block_size: usize,
@@ -151,12 +150,9 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
     fn update_tree(&self, data: &mut TemporaryData<C>, v: usize) {
         let mut stack = vec![v];
         while let Some(v) = stack.pop() {
-            let edges = data.tree_edges.range((
-                Bound::Included((v, EdgeId(0))),
-                Bound::Excluded((v + 1, EdgeId(0))),
-            ));
-            for (_, eid) in edges {
-                let e = self.get_edge(eid);
+            let adj = mem::replace(&mut data.vertices[v].tree_edges, Default::default());
+            for eid in adj.iter() {
+                let e = self.get_edge(&eid);
                 if data.vertices[v].parent == Some(e.dst) {
                     continue;
                 }
@@ -166,6 +162,7 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
                 data.vertices[e.dst].potential = data.vertices[e.src].potential + e.cost;
                 stack.push(e.dst);
             }
+            data.vertices[v].tree_edges = adj;
         }
     }
 
@@ -174,7 +171,6 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
         let mut infinity = C::one();
         let mut data = TemporaryData {
             vertices: Default::default(),
-            tree_edges: Default::default(),
             n: self.balances.len(),
             root: 0,
             block_size: 1,
@@ -206,8 +202,8 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
             self.add_flow(&eid, b.abs());
             data.vertices[x].adjacent_edges.push(eid);
             data.vertices[y].adjacent_edges.push(eid.rev());
-            data.tree_edges.insert((x, eid));
-            data.tree_edges.insert((y, eid.rev()));
+            data.vertices[x].tree_edges.insert(eid);
+            data.vertices[y].tree_edges.insert(eid.rev());
         }
         data.block_size = min(
             (self.edges.len() as f64).sqrt() as usize + 10,
@@ -314,12 +310,14 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
         if leaving_edge_id == eid {
             return;
         }
-        assert!(data.tree_edges.insert((src, eid)));
-        assert!(data.tree_edges.insert((dst, eid.rev())));
-        assert!(data.tree_edges.remove(&(leaving_e.src, leaving_edge_id)));
-        assert!(data
+        assert!(data.vertices[src].tree_edges.insert(eid));
+        assert!(data.vertices[dst].tree_edges.insert(eid.rev()));
+        assert!(data.vertices[leaving_e.src]
             .tree_edges
-            .remove(&(leaving_e.dst, leaving_edge_id.rev())));
+            .remove(&leaving_edge_id));
+        assert!(data.vertices[leaving_e.dst]
+            .tree_edges
+            .remove(&leaving_edge_id.rev()));
         match leaving_side {
             LeavingSide::SRC => self.update_tree(data, dst),
             LeavingSide::DST => self.update_tree(data, src),
