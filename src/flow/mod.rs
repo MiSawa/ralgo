@@ -1,7 +1,8 @@
+pub mod dfs_lca_network_simplex;
+pub mod network_simplex;
+
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
-
-pub mod network_simplex;
 
 pub trait Zero: Sized {
     fn zero() -> Self;

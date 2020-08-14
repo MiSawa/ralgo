@@ -1,5 +1,5 @@
 use proconio::input;
-use ralgo::flow::network_simplex::NetworkSimplex;
+use ralgo::flow::dfs_lca_network_simplex::NetworkSimplex;
 // verify-helper: PROBLEM https://judge.yosupo.jp/problem/min_cost_b_flow
 
 fn main() {
