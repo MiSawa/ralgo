@@ -18,18 +18,20 @@ impl UnionFind {
         self.nodes[child].parent = parent;
     }
 
-    pub fn unite(&mut self, u: usize, v: usize) -> bool {
+    pub fn unite(&mut self, u: usize, v: usize) -> (bool, usize) {
         let u = self.find_mut(u);
         let v = self.find_mut(v);
         if u == v {
-            false
+            (false, u)
         } else {
-            if self.nodes[u].size >= self.nodes[v].size {
+            let new_root = if self.nodes[u].size >= self.nodes[v].size {
                 self.join_roots(u, v);
+                u
             } else {
                 self.join_roots(v, u);
+                v
             };
-            true
+            (true, new_root)
         }
     }
 
@@ -87,11 +89,11 @@ mod test {
     fn test() {
         let mut uf = UnionFind::new(5);
         assert_eq!(uf.find(3), 3);
-        assert!(uf.unite(2, 3));
+        assert!(uf.unite(2, 3).0);
         assert!(uf.same(2, 3));
         assert!(!uf.same(1, 2));
-        assert!(uf.unite(1, 3));
+        assert!(uf.unite(1, 3).0);
         assert!(uf.same_mut(1, 2));
-        assert!(!uf.unite(1, 2));
+        assert!(!uf.unite(1, 2).0);
     }
 }
