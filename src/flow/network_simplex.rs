@@ -150,7 +150,7 @@ impl<F: Flow, C: Cost> NetworkSimplex<F, C> {
     fn update_tree(&self, data: &mut TemporaryData<C>, v: usize) {
         let mut stack = vec![v];
         while let Some(v) = stack.pop() {
-            let adj = mem::replace(&mut data.vertices[v].tree_edges, Default::default());
+            let adj = mem::take(&mut data.vertices[v].tree_edges);
             for eid in adj.iter() {
                 let e = self.get_edge(&eid);
                 if data.vertices[v].parent == Some(e.dst) {
