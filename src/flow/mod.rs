@@ -1,4 +1,5 @@
 pub mod dfs_lca_network_simplex;
+pub mod dinic;
 pub mod network_simplex;
 
 use std::fmt::Display;
