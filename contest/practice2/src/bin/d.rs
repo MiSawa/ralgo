@@ -11,7 +11,6 @@ fn main() {
     }
 
     let mut dinic = Dinic::new();
-    dinic.reserve(h * w + 2);
     let enc = |u, v| u * w + v;
     let s = h * w;
     let t = s + 1;

@@ -1,7 +1,6 @@
 use crate::flow::Flow;
 use core::mem;
 use std::cmp::{max, min};
-use std::option::Option::Some;
 
 struct Edge<F> {
     dst: usize,
@@ -31,13 +30,9 @@ impl<F: Flow> Dinic<F> {
         Self { edges: Vec::new() }
     }
 
-    pub fn reserve(&mut self, n: usize) {
-        self.edges.resize_with(n, || Vec::with_capacity(8));
-    }
-
     pub fn add_edge(&mut self, src: usize, dst: usize, capacity: F) -> EdgeId {
         let n = max(max(src, dst) + 1, self.edges.len());
-        self.edges.resize_with(n, || Vec::with_capacity(8));
+        self.edges.resize_with(n, || Vec::with_capacity(4));
         let e = self.edges[src].len();
         let re = self.edges[dst].len() + if src == dst { 1 } else { 0 };
 
@@ -78,13 +73,16 @@ impl<F: Flow> Dinic<F> {
         queue.push(data.s);
         data.label[data.s] = 0;
         let mut q_pos = 0;
-        while q_pos < queue.len() {
+        'new_node: while q_pos < queue.len() {
             let u = queue[q_pos];
             q_pos += 1;
             let next_label = data.label[u] + 1;
             for e in &self.edges[u] {
                 if e.flow < e.upper && data.label[e.dst] == data.n {
                     data.label[e.dst] = next_label;
+                    if e.dst == data.t {
+                        break 'new_node
+                    }
                     queue.push(e.dst);
                 }
             }
@@ -92,59 +90,48 @@ impl<F: Flow> Dinic<F> {
         data.buffer = queue;
         data.label[data.t] < n
     }
-    fn primal(&mut self, data: &mut TemporaryData, limit: F) -> F {
-        let mut res = F::zero();
-        let mut stack = mem::take(&mut data.buffer);
-        stack.clear();
-        stack.push(data.t);
-        'new_node: while let Some(&top) = stack.last() {
-            if top == data.s {
-                stack.pop();
-                let mut f = limit - res;
-                for &u in &stack {
-                    let e = &self.edges[u][data.current_edge[u]];
-                    f = min(f, e.flow);
-                }
-                for i in (0..stack.len()).rev() {
-                    let u = stack[i];
-                    let e = data.current_edge[u];
-                    let v = self.edges[u][e].dst;
-                    let re = self.edges[u][e].rev;
-                    self.edges[v][re].flow += f;
-                    self.edges[u][e].flow -= f;
-                    if self.edges[u][e].flow.is_zero() {
-                        stack.truncate(i + 1);
-                        data.current_edge[u] += 1;
+
+    fn primal_dfs(&mut self, u: usize, data: &mut TemporaryData, mut limit: F) -> F {
+        if u == data.s {
+            return limit;
+        }
+        let mut total = F::zero();
+        let mut i = data.current_edge[u];
+        while i < self.edges[u].len() {
+            let e = &self.edges[u][i];
+            if e.flow.is_positive() && data.label[e.dst] < data.label[u] {
+                let new_limit = min(limit, e.flow);
+                let v = e.dst;
+                let f = self.primal_dfs(v, data, new_limit);
+                if !f.is_zero() {
+                    let e = &mut self.edges[u][i];
+                    let v = e.dst;
+                    let r = e.rev;
+                    e.flow -= f;
+                    self.edges[v][r].flow += f;
+                    total += f;
+                    limit -= f;
+                    if limit.is_zero() {
+                        if self.edges[u][i].flow.is_zero() {
+                            i += 1;
+                        }
+                        data.current_edge[u] = i;
+                        return total;
                     }
                 }
-                res += f;
-                if res == limit {
-                    break 'new_node;
-                }
-                continue 'new_node;
             }
-            let u = top;
-            let i = &mut data.current_edge[u];
-            while *i < self.edges[u].len() {
-                let e: &mut Edge<F> = &mut self.edges[u][*i];
-                if e.flow.is_positive() && data.label[e.dst] < data.label[u] {
-                    stack.push(e.dst);
-                    continue 'new_node;
-                }
-                *i += 1;
-            }
-            data.label[u] = data.n;
-            stack.pop();
+            i += 1;
         }
-        data.buffer = stack;
-        res
+        data.current_edge[u] = !0;
+        data.label[u] = data.n;
+        total
     }
 
     pub fn augment(&mut self, s: usize, t: usize, limit: F) -> F {
         let mut data = self.prepare_data(s, t);
         let mut flow = F::zero();
         while self.dual(&mut data) {
-            flow += self.primal(&mut data, limit - flow);
+            flow += self.primal_dfs(data.t, &mut data, limit - flow);
             if flow == limit {
                 break;
             }
@@ -160,7 +147,7 @@ impl<F: Flow> Dinic<F> {
             .fold(F::zero(), |a, b| a + b);
         let mut flow = F::zero();
         while self.dual(&mut data) {
-            flow += self.primal(&mut data, inf);
+            flow += self.primal_dfs(data.t, &mut data, inf);
         }
         let label = mem::take(&mut data.label);
         let cut = label
