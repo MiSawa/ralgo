@@ -8,13 +8,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache cargo dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Set up Python
         uses: actions/setup-python@v1
 
       - name: Install oj-verify
         run: pip3 install -U git+https://github.com/online-judge-tools/verification-helper@master
+
+      - name: Cache verification i/o
+        uses: actions/cache@v2
+        with:
+          path: .verify-helper/cache
+          key: ${{ runner.os }}-oj-verify-${{ hashFiles('verify/**/**test.rs') }}
 
       - name: Run oj-verify
         env:
