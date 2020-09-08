@@ -27,49 +27,31 @@ fn main() {
         }
     }
 
-    let mut up = vec![vec![Option::None; w]; h];
-    let mut down = up.clone();
-    let mut left = up.clone();
-    let mut right = up.clone();
-
+    let mut edges = Vec::with_capacity(h * w * 4);
     for u in 0..h {
         for v in 0..w {
             if (u + v).is_odd() || b[u][v] == b'#' {
                 continue;
             }
             if u > 0 && b[u - 1][v] == b'.' {
-                up[u][v] = Some(dinic.add_edge(enc(u, v), enc(u - 1, v), 1));
+                edges.push((u, v, u-1, v, b'^', b'v', dinic.add_edge(enc(u, v), enc(u-1, v), 1)));
             }
             if u + 1 < h && b[u + 1][v] == b'.' {
-                down[u][v] = Some(dinic.add_edge(enc(u, v), enc(u + 1, v), 1));
+                edges.push((u, v, u+1, v, b'v', b'^', dinic.add_edge(enc(u, v), enc(u+1, v), 1)));
             }
             if v > 0 && b[u][v - 1] == b'.' {
-                left[u][v] = Some(dinic.add_edge(enc(u, v), enc(u, v - 1), 1));
+                edges.push((u, v, u, v-1, b'<', b'>', dinic.add_edge(enc(u, v), enc(u, v-1), 1)));
             }
             if v + 1 < w && b[u][v + 1] == b'.' {
-                right[u][v] = Some(dinic.add_edge(enc(u, v), enc(u, v + 1), 1));
+                edges.push((u, v, u, v+1, b'>', b'<', dinic.add_edge(enc(u, v), enc(u, v+1), 1)));
             }
         }
     }
     println!("{}", dinic.max_flow(s, t).0);
-    for u in 0..h {
-        for v in 0..w {
-            if Some(true) == up[u][v].map(|e| dinic.get_flow(&e) != 0) {
-                b[u][v] = b'^';
-                b[u - 1][v] = b'v';
-            }
-            if Some(true) == down[u][v].map(|e| dinic.get_flow(&e) != 0) {
-                b[u][v] = b'v';
-                b[u + 1][v] = b'^';
-            }
-            if Some(true) == left[u][v].map(|e| dinic.get_flow(&e) != 0) {
-                b[u][v] = b'<';
-                b[u][v - 1] = b'>';
-            }
-            if Some(true) == right[u][v].map(|e| dinic.get_flow(&e) != 0) {
-                b[u][v] = b'>';
-                b[u][v + 1] = b'<';
-            }
+    for (u, v, uu, vv, c, cc, e) in edges {
+        if dinic.get_flow(&e) != 0 {
+            b[u][v] = c;
+            b[uu][vv] = cc;
         }
     }
     for line in b {
