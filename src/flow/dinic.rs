@@ -127,6 +127,7 @@ impl<F: Flow> Dinic<F> {
     }
 
     pub fn augment(&mut self, s: usize, t: usize, limit: F) -> F {
+        assert_ne!(s, t, "Source and sink vertex should be different");
         let mut data = self.prepare_data(s, t);
         let mut flow = F::zero();
         while self.dual(&mut data) {
@@ -139,6 +140,7 @@ impl<F: Flow> Dinic<F> {
     }
 
     pub fn max_flow(&mut self, s: usize, t: usize) -> (F, Vec<usize>) {
+        assert_ne!(s, t, "Source and sink vertex should be different");
         let mut data = self.prepare_data(s, t);
         let inf = self.edges[s]
             .iter()
