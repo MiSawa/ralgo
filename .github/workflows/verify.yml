@@ -11,6 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Prepare nightly toolchain
+        uses: actions-rs/toolchain@v1
+          with:
+            toolchain: nightly
+            override: false
+
       - name: Cache cargo dependencies
         uses: actions/cache@v2
         with:
