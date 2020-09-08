@@ -11,7 +11,6 @@ struct Edge<F> {
 
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug, Hash)]
 pub struct EdgeId(usize, usize);
-impl EdgeId {}
 
 struct TemporaryData {
     n: usize,
@@ -81,7 +80,7 @@ impl<F: Flow> Dinic<F> {
                 if e.flow < e.upper && data.label[e.dst] == data.n {
                     data.label[e.dst] = next_label;
                     if e.dst == data.t {
-                        break 'new_node
+                        break 'new_node;
                     }
                     queue.push(e.dst);
                 }
