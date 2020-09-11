@@ -3,8 +3,7 @@ name: Verify
 on: push
 
 jobs:
-  build:
-
+  verify:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +36,9 @@ jobs:
         with:
           path: .verify-helper/cache
           key: ${{ runner.os }}-oj-verify-${{ hashFiles('verify/**/**test.rs') }}
+
+      - name: Wanna see if dependency extractor works fine
+        run: ./.verify-helper/dependency-extractor a_plus_b_test.rs
 
       - name: Run oj-verify
         env:
