@@ -1,0 +1,3 @@
+[submodule "ralgo-deps"]
+	path = ralgo-deps
+	url = git@github.com:MiSawa/ralgo-deps.git
