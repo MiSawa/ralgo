@@ -1,3 +1,4 @@
 /target
-Cargo.lock
+/contest/*/target
+/Cargo.lock
 /.idea
