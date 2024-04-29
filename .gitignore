@@ -2,3 +2,4 @@
 /contest/*/target
 /Cargo.lock
 /.idea
+/venv
