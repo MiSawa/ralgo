@@ -17,7 +17,10 @@ impl proconio::source::Readable for Query {
     fn read<R: std::io::BufRead, S: proconio::source::Source<R>>(
         source: &mut S,
     ) -> Self::Output {
-        let t = u8::read(source);
+        input! {
+            from &mut *source,
+            t: u8,
+        };
         match t {
             0 => {
                 input! {
