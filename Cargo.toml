@@ -12,6 +12,6 @@ repository = "https://github.com/MiSawa/ralgo/"
 ac-library-rs = "=0.1.1"
 num = "0.2"
 
-[workspace]
-members = ["verify"]
+[dev-dependencies]
+proconio = "0.4.5"
 
