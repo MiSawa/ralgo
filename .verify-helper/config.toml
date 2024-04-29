@@ -1,5 +1,3 @@
-[languages.rs]
-verification_file_suffix = '_test.rs'
-compile = 'cargo build --release --workspace'
-execute = '.verify-helper/runner {path}'
-list_dependencies = '.verify-helper/dependency-extractor {path}'
+[languages.rust.list_dependencies_backend]
+kind = "none"
+

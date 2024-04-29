@@ -8,14 +8,10 @@ readme = "README.md"
 license-file = "LICENSE"
 repository = "https://github.com/MiSawa/ralgo/"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+ac-library-rs = "=0.1.1"
 num = "0.2"
 
 [workspace]
-members = ["dependency_util", "verify"]
+members = ["verify"]
 
-[patch.crates-io]
-rls-analysis = { git = "https://github.com/MiSawa/rls.git", branch = "expose-more-things" }
-rls-data = { git = "https://github.com/MiSawa/rls.git", branch = "expose-more-things" }
