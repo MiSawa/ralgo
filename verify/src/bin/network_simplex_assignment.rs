@@ -30,9 +30,8 @@ fn main() {
     for i in 0..n {
         for j in 0..n {
             if result.get_flow(&edges[i][j]) == 1 {
-                print!("{} ", j);
+                print!("{}{}", j, if i + 1 == n { '\n' } else { ' ' });
             }
         }
     }
-    println!()
 }

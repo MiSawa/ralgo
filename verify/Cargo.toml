@@ -1,0 +1,10 @@
+[package]
+name = "verify"
+edition = "2018"
+
+[dependencies]
+ac-library-rs = "=0.1.1"
+num = "0.2"
+proconio = "0.4.5"
+ralgo = { path = ".." }
+

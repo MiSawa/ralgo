@@ -1,7 +1,7 @@
 use std::ops::Add;
 
 pub fn a_plus_b<T: Add<Output = T>>(a: T, b: T) -> T {
-    return a + b;
+    a + b
 }
 
 #[cfg(test)]
