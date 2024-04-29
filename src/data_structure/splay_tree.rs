@@ -477,7 +477,10 @@ impl<O: SeqOps> SeqOps for Reversible<O> {
     }
 
     fn binary_operation(lhs: &Self::Acc, rhs: &Self::Acc) -> Self::Acc {
-        (O::binary_operation(&lhs.0, &rhs.0), O::binary_operation(&rhs.1, &lhs.1))
+        (
+            O::binary_operation(&lhs.0, &rhs.0),
+            O::binary_operation(&rhs.1, &lhs.1),
+        )
     }
 
     fn reverse(_val: &mut Self::Value, acc: &mut Self::Acc) {

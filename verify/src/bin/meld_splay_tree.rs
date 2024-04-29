@@ -14,9 +14,7 @@ enum Query {
 impl proconio::source::Readable for Query {
     type Output = Query;
 
-    fn read<R: std::io::BufRead, S: proconio::source::Source<R>>(
-        source: &mut S,
-    ) -> Self::Output {
+    fn read<R: std::io::BufRead, S: proconio::source::Source<R>>(source: &mut S) -> Self::Output {
         input! {
             from &mut *source,
             t: u8,
@@ -59,7 +57,11 @@ struct RangeSortRangeProd<'a, K, M: Monoid> {
     seg: Segtree<M>,
     trees: BTreeMap<usize, (TreeHandle<'a, K, Reversible<M>>, bool)>,
 }
-impl<'a, K: Ord + Clone, M: Monoid> RangeSortRangeProd<'a, K, M> where K: std::fmt::Debug, M::S: std::fmt::Debug {
+impl<'a, K: Ord + Clone, M: Monoid> RangeSortRangeProd<'a, K, M>
+where
+    K: std::fmt::Debug,
+    M::S: std::fmt::Debug,
+{
     fn new(
         factory: impl Into<Trees<'a, K, Reversible<M>>>,
         it: impl IntoIterator<Item = (K, M::S)>,
