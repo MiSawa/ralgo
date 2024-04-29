@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .verify-helper/cache
-          key: ${{ runner.os }}-oj-verify-${{ hashFiles('verify/**/**test.rs') }}
+          key: ${{ runner.os }}-oj-verify-${{ hashFiles('verify/**/**.rs') }}
 
       - name: Run oj-verify
         env:
