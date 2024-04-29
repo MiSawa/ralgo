@@ -57,11 +57,7 @@ struct RangeSortRangeProd<'a, K, M: Monoid> {
     seg: Segtree<M>,
     trees: BTreeMap<usize, (TreeHandle<'a, K, Reversible<M>>, bool)>,
 }
-impl<'a, K: Ord + Clone, M: Monoid> RangeSortRangeProd<'a, K, M>
-where
-    K: std::fmt::Debug,
-    M::S: std::fmt::Debug,
-{
+impl<'a, K: Ord + Clone, M: Monoid> RangeSortRangeProd<'a, K, M> {
     fn new(
         factory: impl Into<Trees<'a, K, Reversible<M>>>,
         it: impl IntoIterator<Item = (K, M::S)>,

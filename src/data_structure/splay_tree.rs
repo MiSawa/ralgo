@@ -399,12 +399,7 @@ where
     }
 }
 
-impl<'arena, K: Ord + Clone, O: SeqOps> TreeHandle<'arena, K, O>
-where
-    K: std::fmt::Debug,
-    O::Value: std::fmt::Debug,
-    O::Acc: std::fmt::Debug,
-{
+impl<'arena, K: Ord + Clone, O: SeqOps> TreeHandle<'arena, K, O> {
     /// (true, false)
     pub fn partition_with_key(&self, cmp: impl Fn(&K) -> bool) -> (Self, Self) {
         let Some(mut node) = self.0 else {
