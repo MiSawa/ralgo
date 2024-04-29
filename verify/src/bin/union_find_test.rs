@@ -1,7 +1,7 @@
 use proconio::input;
 use ralgo::data_structure::union_find::UnionFind;
 
-// verify-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 
 fn main() {
     input! {

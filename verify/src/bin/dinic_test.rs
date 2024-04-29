@@ -1,7 +1,7 @@
 use proconio::input;
 use proconio::marker::Usize1;
 use ralgo::flow::dinic::Dinic;
-// verify-helper: PROBLEM https://yukicoder.me/problems/177
+// verification-helper: PROBLEM https://yukicoder.me/problems/177
 
 fn main() {
     input! {

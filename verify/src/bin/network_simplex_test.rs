@@ -1,6 +1,6 @@
 use proconio::input;
 use ralgo::flow::network_simplex::NetworkSimplex;
-// verify-helper: PROBLEM https://judge.yosupo.jp/problem/min_cost_b_flow
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/min_cost_b_flow
 
 fn main() {
     input! {

@@ -4,7 +4,7 @@ use ac_library::{ModInt998244353 as K, Monoid, Segtree};
 use proconio::input;
 use ralgo::{data_structure::splay_tree::*, util::arena::Arena};
 
-// verify-helper: PROBLEM https://judge.yosupo.jp/problem/point_set_range_sort_range_composite
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/point_set_range_sort_range_composite
 
 enum Query {
     Change(usize, usize, K, K),

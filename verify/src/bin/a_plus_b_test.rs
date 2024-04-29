@@ -2,7 +2,7 @@ use std::io::{stdin, BufRead};
 
 use ralgo::a_plus_b::a_plus_b;
 
-// verify-helper: PROBLEM https://judge.yosupo.jp/problem/aplusb
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/aplusb
 
 fn main() {
     let stdin = stdin();

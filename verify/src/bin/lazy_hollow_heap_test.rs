@@ -3,7 +3,7 @@ use ralgo::data_structure::lazy_hollow_heap::LazyHollowHeap;
 use std::iter::repeat_with;
 use std::option::Option::Some;
 
-// verify-helper: PROBLEM https://judge.yosupo.jp/problem/shortest_path
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/shortest_path
 
 fn main() {
     input! {
