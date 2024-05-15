@@ -10,8 +10,24 @@ use std::alloc::{GlobalAlloc, System};
 /// #[global_allocator]
 /// static GLOBAL_ALLOC: LeakyAlloc = LeakyAlloc::system();
 /// ```
+///
+/// ```
+/// use ralgo::utils::alloc::LeakyAlloc;
+/// # pub struct WhateverGlobalAlloc;
+/// # unsafe impl std::alloc::GlobalAlloc for WhateverGlobalAlloc {
+/// #     unsafe fn alloc(&self, layout: std::alloc::Layout) -> *mut u8 {
+/// #         std::alloc::System.alloc(layout)
+/// #     }
+/// #     unsafe fn dealloc(&self, ptr: *mut u8, layout: std::alloc::Layout) {
+/// #         std::alloc::System.dealloc(ptr, layout)
+/// #     }
+/// # }
+///
+/// #[global_allocator]
+/// static GLOBAL_ALLOC: LeakyAlloc<WhateverGlobalAlloc> = LeakyAlloc(WhateverGlobalAlloc);
+/// ```
 
-pub struct LeakyAlloc<A: GlobalAlloc = System>(A);
+pub struct LeakyAlloc<A: GlobalAlloc = System>(pub A);
 impl LeakyAlloc<System> {
     pub const fn system() -> Self {
         Self(System)
