@@ -246,19 +246,19 @@ impl<'a, K, O: SeqOps> Node<'a, K, O> {
 }
 
 pub struct Trees<'arena, K, O: SeqOps> {
-    arena: &'arena crate::util::arena::Arena<RefCell<Node<'arena, K, O>>>,
+    arena: &'arena crate::utils::arena::Arena<RefCell<Node<'arena, K, O>>>,
 }
 pub type Sequences<'arena, O> = Trees<'arena, (), O>;
 
-impl<'arena, K, O: SeqOps> From<&'arena crate::util::arena::Arena<RefCell<Node<'arena, K, O>>>>
+impl<'arena, K, O: SeqOps> From<&'arena crate::utils::arena::Arena<RefCell<Node<'arena, K, O>>>>
     for Trees<'arena, K, O>
 {
-    fn from(arena: &'arena crate::util::arena::Arena<RefCell<Node<'arena, K, O>>>) -> Self {
+    fn from(arena: &'arena crate::utils::arena::Arena<RefCell<Node<'arena, K, O>>>) -> Self {
         Self { arena }
     }
 }
 impl<'arena, K, O: SeqOps> Trees<'arena, K, O> {
-    pub fn new(arena: &'arena crate::util::arena::Arena<RefCell<Node<'arena, K, O>>>) -> Self {
+    pub fn new(arena: &'arena crate::utils::arena::Arena<RefCell<Node<'arena, K, O>>>) -> Self {
         Self { arena }
     }
 
@@ -515,7 +515,7 @@ fn test() {
 
         fn binary_operation(_lhs: &Self::Acc, _rhs: &Self::Acc) -> Self::Acc {}
     }
-    let arena = crate::util::arena::Arena::new();
+    let arena = crate::utils::arena::Arena::new();
     let seq = Trees::<(), Nop>::new(&arena);
     let a = seq.singleton_tree((), 0);
     let seq2 = Trees::<(), Nop>::new(&arena);
