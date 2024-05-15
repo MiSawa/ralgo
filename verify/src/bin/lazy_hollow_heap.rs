@@ -1,7 +1,7 @@
+use std::{iter::repeat_with, option::Option::Some};
+
 use proconio::input;
-use ralgo::data_structure::lazy_hollow_heap::LazyHollowHeap;
-use std::iter::repeat_with;
-use std::option::Option::Some;
+use ralgo::data_structures::lazy_hollow_heap::LazyHollowHeap;
 
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/shortest_path
 

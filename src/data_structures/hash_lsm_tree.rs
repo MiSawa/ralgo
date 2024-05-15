@@ -1,8 +1,10 @@
-use std::cmp::{min, Ordering};
-use std::collections::hash_map::RandomState;
-use std::hash::{BuildHasher, Hash, Hasher};
-use std::iter::Peekable;
-use std::mem;
+use std::{
+    cmp::{min, Ordering},
+    collections::hash_map::RandomState,
+    hash::{BuildHasher, Hash, Hasher},
+    iter::Peekable,
+    mem,
+};
 
 const BUFFER_SIZE: usize = 16;
 

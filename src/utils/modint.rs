@@ -1,8 +1,11 @@
+use std::{
+    fmt,
+    fmt::{Debug, Display, Formatter},
+    iter::Product,
+    ops::{Add, Mul, MulAssign, Neg},
+};
+
 pub use num::{Integer, One, Zero};
-use std::fmt;
-use std::fmt::{Debug, Display, Formatter};
-use std::iter::Product;
-use std::ops::{Add, Mul, MulAssign, Neg};
 
 pub trait Modular {
     type I: Integer + Clone + Display;

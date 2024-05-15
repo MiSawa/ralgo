@@ -1,9 +1,12 @@
-use crate::flow::{Cost, Flow, Zero};
 use core::mem;
-use std::cmp::{max, min};
-use std::collections::HashSet;
-use std::ops::{Add, Mul};
-use std::option::Option::{None, Some};
+use std::{
+    cmp::{max, min},
+    collections::HashSet,
+    ops::{Add, Mul},
+    option::Option::{None, Some},
+};
+
+use crate::flows::{Cost, Flow, Zero};
 
 struct Edge<F, C> {
     src: usize,

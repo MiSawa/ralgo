@@ -1,6 +1,6 @@
-use proconio::input;
-use proconio::marker::Usize1;
-use ralgo::flow::dinic::Dinic;
+use proconio::{input, marker::Usize1};
+use ralgo::flows::dinic::Dinic;
+
 // verification-helper: PROBLEM https://yukicoder.me/problems/177
 
 fn main() {

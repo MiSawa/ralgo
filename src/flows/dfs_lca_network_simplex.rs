@@ -1,11 +1,16 @@
-use crate::data_structure::union_find::UnionFind;
-use crate::flow::{Cost, Flow, Zero};
-use core::mem;
-use std::cmp::{max, min};
-use std::collections::HashSet;
-use std::iter::repeat_with;
-use std::ops::{Add, Mul};
-use std::option::Option::{None, Some};
+use std::{
+    cmp::{max, min},
+    collections::HashSet,
+    iter::repeat_with,
+    mem,
+    ops::{Add, Mul},
+    option::Option::{None, Some},
+};
+
+use crate::{
+    data_structures::union_find::UnionFind,
+    flows::{Cost, Flow, Zero},
+};
 
 struct Edge<F, C> {
     src: usize,

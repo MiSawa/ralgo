@@ -1,6 +1,4 @@
-use std::cmp::Ordering;
-use std::mem;
-use std::option::Option::Some;
+use std::{cmp::Ordering, mem, option::Option::Some};
 
 pub struct Ref(usize);
 

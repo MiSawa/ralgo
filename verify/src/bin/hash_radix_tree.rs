@@ -1,5 +1,5 @@
 use proconio::input;
-use ralgo::data_structure::hash_radix_tree::HashRadixTree;
+use ralgo::data_structures::hash_radix_tree::HashRadixTree;
 
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/associative_array
 

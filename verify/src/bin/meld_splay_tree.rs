@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 
 use ac_library::{ModInt998244353 as K, Monoid, Segtree};
 use proconio::input;
-use ralgo::{data_structure::splay_tree::*, utils::arena::Arena};
+use ralgo::{data_structures::splay_tree::*, utils::arena::Arena};
 
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/point_set_range_sort_range_composite
 

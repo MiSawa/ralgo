@@ -1,5 +1,5 @@
 use proconio::input;
-use ralgo::data_structure::union_find::UnionFind;
+use ralgo::data_structures::union_find::UnionFind;
 
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 

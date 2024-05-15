@@ -1,7 +1,9 @@
-use std::collections::hash_map::RandomState;
-use std::hash::{BuildHasher, Hash, Hasher};
-use std::iter::repeat_with;
-use std::mem::take;
+use std::{
+    collections::hash_map::RandomState,
+    hash::{BuildHasher, Hash, Hasher},
+    iter::repeat_with,
+    mem::take,
+};
 
 const E: usize = 5;
 const B: usize = 1 << E;

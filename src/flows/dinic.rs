@@ -1,6 +1,9 @@
-use crate::flow::Flow;
-use core::mem;
-use std::cmp::{max, min};
+use std::{
+    cmp::{max, min},
+    mem,
+};
+
+use crate::flows::Flow;
 
 struct Edge<F> {
     dst: usize,
